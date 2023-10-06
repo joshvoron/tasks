@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body class="index-body">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " style="background: rgb(196,42,34);
+  background: linear-gradient(14deg, rgba(196, 42, 34, 0.692) 36%, rgba(255, 0, 89, 0.637) 91%); padding: 0;">
+  <div class="container-fluid">
+    <a href="{% url 'index' %}" class="navbar-brand text-white ">tasks</a>
+
+    <!-- Colors Container -->
+    <div>
+      <div class="mx-auto" style="display: flex; align-items: center;">
+
+        {% for color in colors %}
+          {% if color.color == 1 %}
+            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(221,50,50);
+          background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></a>
+          {% elif color.color == 2 %}
+            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(154,196,78);
+          background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></a>
+          {% elif color.color == 3 %}
+            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(34,59,126);
+                  background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></a>
+          {% elif color.color == 4 %}
+            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(211,214,18);
+                  background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></a>
+          {% elif color.color == 5 %}
+            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(255,102,0);
+                  background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></a>
+          {% endif %}
+        {% endfor %}
+        {% if colorscount != 5 %}
+          <a class="add-color-button" href="{% url 'addcolor' %}">+</a>
+        {% endif %}
+
+
+      </div>
+    </div>
+    <!-- Colors Container end -->
+
+    <!-- Sorting Container -->
+    <div class="d-flex justify-content-center">
+      <a class="text-decoration-none text-white my-auto me-2 ">sort by:</a>
+      <div class="mx-auto">
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Name</option>
+          <option value="1">Color</option>
+          <option value="2">Creation date</option>
+          <option value="3">Expiration date</option>
+        </select>
+      </div>
+    </div>
+    <!-- Sorting Container end -->
+
+    <!-- Profile -->
+    <div class="dropstart">
+      <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle text-white fs-2"></i>
+      </a>
+      <ul class="dropdown-menu" style="width: 1rem;">
+        <li><a class="dropdown-item " href="http://127.0.0.1:5500/profile.html">Profile</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li><a class="dropdown-item" href="http://127.0.0.1:5500/login.html">Log out</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+
+        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+      </ul>
+    </div>
+    <!-- Profile end -->
+  </div>
+</nav>
+<!-- Navbar end -->
+
+{% block content %}
+
+{% endblock %}
+
+
+  <!-- Add button -->
+{% block add_button %}
+
+{% endblock %}
+  <!-- Add button end -->
+
+
+<!-- Scripts -->
+{% block scripts %}
+
+{% endblock %}
+<!-- Scripts end -->
+
+</body>
+
+</html>
