@@ -355,6 +355,18 @@ textarea {
     border-radius: 50rem;
 }
 
+.delete-color {
+    display: none;
+}
+
+.task-title:hover .delete-color {
+    display: inline;
+    text-decoration: none;
+    margin-right:0;
+    color: black;
+}
+
+
 .profile-name {
     text-align: center;
     border: .15rem solid rgb(211, 210, 210);

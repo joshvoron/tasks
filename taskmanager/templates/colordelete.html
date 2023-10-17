@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Delete task -->
+  {% if object.username == User %}
+    <div class="task-delete-div">
+      <form method="post">
+        {% csrf_token %}
+        <div class="del-task">
+          <a class=" text-decoration-none text-black ms-2">Are you sure?</a>
+        </div>
+        <div class="task-desc ps-2 pe-2 pt-1 pb-1">
+          <a class="text-decoration-none text-black">Delete: {{ colormodel.name }} </a>
+        </div>
+        <div class="task-bottom">
+          <a href="{% url 'index' %}" class="text-decoration-none text-black" style="width: 100%">
+            <button type="button" class="no-button pt-1 pb-1"><b>No</b></button>
+          </a>
+          <button type="submit" class="yes-button pt-1 pb-1"><b>Yes</b></button>
+        </div>
+      </form>
+    </div>
+  {% else %}
+    <h1 style="text-align: center;">Forbidden. You don't have access for this page.</h1>
+  {% endif %}
+  <!-- Delete Task end -->
+{% endblock %}

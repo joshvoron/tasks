@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tasks - profile</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+{% if customuser == User %}
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg " style="background: rgb(196,42,34);
+  background: linear-gradient(14deg, rgba(196, 42, 34, 0.692) 36%, rgba(255, 0, 89, 0.637) 91%); padding: 0;">
+    <div class="container-fluid">
+      <a href="{% url 'index' %}" class="navbar-brand text-white ">tasks</a>
+
+      <!-- Profile -->
+      <div class="dropstart">
+        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle text-white fs-2"></i>
+        </a>
+        <ul class="dropdown-menu" style="width: 1rem;">
+          <li><a class="dropdown-item " href="#">Profile</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li><a class="dropdown-item" href="#">Log out</a></li>
+        </ul>
+      </div>
+
+      <!-- Profile -->
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+
+  <div class="container" style="  font-size: 1.25rem;">
+    <div class="row">
+      <!-- Profile -->
+      <div class="col-6 mx-auto mt-2">
+        {% for field, errors in form.errors.items %}
+          <li>{{ field }}: {{ errors.0 }}</li>
+        {% endfor %}
+        <div class="task-title pt-1 pb-1">
+          <a class="a-task-title" style=><b>Your profile</b></a>
+        </div>
+        <div class="profile-container">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+              <div class="row">
+                <div class="col-4">
+                  <img
+                        src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}
+                  https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg
+                  {% endif %}"
+                        class="profile-img mt-4 ms-2">
+                </div>
+
+                <div class="col-8" style="height: 2rem; display:block;">
+                  <div class="container">
+                    <div class="row col-12 mb-2"><a class="text-decoration-none text-black">Name: </a>
+                      <input name="username" style="width: 22rem" class="profile-name" type="text" value="{{ user.username }}">
+                    </div>
+                    <div class="row col-12 mb-2"><a class="text-decoration-none text-black">Email: </a><input name="email" style="width: 22rem"
+                                                                                                              class="profile-name" type="email"
+                                                                                                              value="{{ user.email }}"></div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-4">
+                  <button type="button" class="profile-changebutton" style="margin-top: 1rem; width:10rem;" id="select-photo-button">Select photo...<i
+                        class="bi bi-box-arrow-up-right arrow"
+                        style=" font-size: .75rem; vertical-align: top;"></i>
+                  </button>
+                  <input name="profile_photo" id="file-input" type="file" accept="image/jpeg, image/png" style="display: none">
+
+                </div>
+
+                <div class="col-8" style="height: 4rem; text-align:center">
+                  <a href='{% url 'changepassword' user.id %}' style="font-size: 1rem; vertical-align: top;">change password?</a><br>
+                  </a>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-12"
+                     style="justify-content: space-between; display: flex;border-top: solid .15rem rgb(211, 210, 210);">
+                  <button type="button" class="profile-changebutton"
+                          style=" margin-bottom: .5rem; margin-top:.5rem; background-color: rgb(196, 42, 34);"><a href="{% url 'deleteaccount' user.id %}"
+                                                                                                                  class="text-decoration-none text-white">Delete
+                    account <i
+                          class="bi bi-box-arrow-up-right arrow" style="font-size: .75rem; vertical-align: top;"></i></a></button>
+                  <button type="submit" class="profile-changebutton" style="margin-bottom: .5rem;  margin-top:.5rem; ">
+                    <a class="text-decoration-none text-white">Update data</a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Profile -->
+    </div>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+          crossorigin="anonymous"></script>
+
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const selectPhotoButton = document.getElementById('select-photo-button');
+          const fileInput = document.getElementById('file-input');
+
+          // Слушаем изменение значения input file
+          fileInput.addEventListener('change', function () {
+              if (fileInput.files.length > 0) {
+                  // Файл выбран, меняем текст и стиль кнопки
+                  selectPhotoButton.textContent = 'Photo selected';
+                  selectPhotoButton.style.backgroundColor = 'gray';
+                  selectPhotoButton.disabled = true;
+              } else {
+                  // Файл не выбран, восстанавливаем текст и стиль кнопки
+                  selectPhotoButton.textContent = 'Select photo...';
+                  selectPhotoButton.style.backgroundColor = '';
+                  selectPhotoButton.disabled = false;
+              }
+          });
+
+          // Слушаем клик на кнопке "Select photo"
+          selectPhotoButton.addEventListener('click', function () {
+              fileInput.click(); // Запускаем метод click() на input
+          });
+      });
+  </script>
+
+{% else %}
+  <h1 style="text-align: center;">Forbidden. You don't have access for this page.</h1>
+{% endif %}
+</body>
+
+</html>

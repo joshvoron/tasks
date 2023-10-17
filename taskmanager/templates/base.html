@@ -12,7 +12,9 @@
   <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 
-<body class="index-body">
+<body class="{% block indexbody %}
+	
+{% endblock %}">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " style="background: rgb(196,42,34);
@@ -26,23 +28,23 @@
 
         {% for color in colors %}
           {% if color.color == 1 %}
-            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(221,50,50);
+            <a href="{% url 'by_color' color.user_color %}" title="{{ color.name }}" class="color-button" style="background: rgb(221,50,50);
           background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></a>
           {% elif color.color == 2 %}
-            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(154,196,78);
+            <a href="{% url 'by_color' color.user_color %}" title="{{ color.name }}" class="color-button" style="background: rgb(154,196,78);
           background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></a>
           {% elif color.color == 3 %}
-            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(34,59,126);
+            <a href="{% url 'by_color' color.user_color %}" title="{{ color.name }}" class="color-button" style="background: rgb(34,59,126);
                   background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></a>
           {% elif color.color == 4 %}
-            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(211,214,18);
+            <a href="{% url 'by_color' color.user_color %}" title="{{ color.name }}" class="color-button" style="background: rgb(211,214,18);
                   background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></a>
           {% elif color.color == 5 %}
-            <a href="{% url 'by_color' color  %}" title="{{ color.name }}" class="color-button" style="background: rgb(255,102,0);
+            <a href="{% url 'by_color' color.user_color %}" title="{{ color.name }}" class="color-button" style="background: rgb(255,102,0);
                   background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></a>
           {% endif %}
         {% endfor %}
-        {% if colorscount != 5 %}
+        {% if colorscount < 5 and colorscount >= 0 %}
           <a class="add-color-button" href="{% url 'addcolor' %}">+</a>
         {% endif %}
 
@@ -51,19 +53,6 @@
     </div>
     <!-- Colors Container end -->
 
-    <!-- Sorting Container -->
-    <div class="d-flex justify-content-center">
-      <a class="text-decoration-none text-white my-auto me-2 ">sort by:</a>
-      <div class="mx-auto">
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Name</option>
-          <option value="1">Color</option>
-          <option value="2">Creation date</option>
-          <option value="3">Expiration date</option>
-        </select>
-      </div>
-    </div>
-    <!-- Sorting Container end -->
 
     <!-- Profile -->
     <div class="dropstart">
@@ -71,15 +60,22 @@
         <i class="bi bi-person-circle text-white fs-2"></i>
       </a>
       <ul class="dropdown-menu" style="width: 1rem;">
-        <li><a class="dropdown-item " href="http://127.0.0.1:5500/profile.html">Profile</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
+        {% if user.is_authenticated %}
+          <li><a class="dropdown-item " href="{% url 'profile' user.id %}">Profile</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
 
-        <li><a class="dropdown-item" href="http://127.0.0.1:5500/login.html">Log out</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
+          <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+        {% else %}
+          <li><a class="dropdown-item" href="{% url 'login' %}">Log in</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+        {% endif %}
 
         <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
       </ul>
@@ -94,11 +90,11 @@
 {% endblock %}
 
 
-  <!-- Add button -->
+<!-- Add button -->
 {% block add_button %}
 
 {% endblock %}
-  <!-- Add button end -->
+<!-- Add button end -->
 
 
 <!-- Scripts -->

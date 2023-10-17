@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import TaskModel, ColorModel
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title','color','expiration_date','creation_date')
+    list_display = ('title','user_color','expiration_date','creation_date')
 
 class ColorAdmin(admin.ModelAdmin):
     list_display = ('name','color')

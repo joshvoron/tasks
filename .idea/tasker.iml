@@ -25,9 +25,8 @@
       <list>
         <option value="$MODULE_DIR$/templates" />
         <option value="$MODULE_DIR$/taskmanager/templates" />
-        <option value="$MODULE_DIR$/taskmanager/static" />
-        <option value="$MODULE_DIR$/auth/templates" />
         <option value="$MODULE_DIR$/static" />
+        <option value="$MODULE_DIR$/authmodule/templates" />
       </list>
     </option>
   </component>

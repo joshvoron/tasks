@@ -1,137 +1,186 @@
 {% extends 'base.html' %}
 
+{% block indexbody %}
+  index-body
+{% endblock %}
+
 {% block content %}
-	<div class="container" style="  font-size: 1.25rem;">
-  <div class="row">
-    <!-- Counter of tasks -->
-    <div class="task-stat col-2 mt-2">
-      {% for color in colors %}
-        <div class="mb-2">
-          <div class="task-title pt-1 pb-1">
-            {% if color.color == 1 %}
-              <div class="task-color" style="background: rgb(221,50,50);
+  <div class="container" style="  font-size: 1.25rem;">
+    <div class="row">
+      <!-- Counter of tasks -->
+      <div class="task-stat col-2 mt-2">
+        {% for color in colors %}
+          <div class="mb-2">
+            <div class="task-title pt-1 pb-1">
+              {% if color.color == 1 %}
+                <div class="task-color" style="background: rgb(221,50,50);
           background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></div>
 
-            {% elif color.color == 2 %}
-              <div class="task-color" style="background: rgb(154,196,78);
+              {% elif color.color == 2 %}
+                <div class="task-color" style="background: rgb(154,196,78);
                       background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></div>
 
-            {% elif color.color == 3 %}
-              <div class="task-color" style="background: rgb(34,59,126);
+              {% elif color.color == 3 %}
+                <div class="task-color" style="background: rgb(34,59,126);
                       background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></div>
 
-            {% elif color.color == 4 %}
-              <div class="task-color" style="background: rgb(211,214,18);
+              {% elif color.color == 4 %}
+                <div class="task-color" style="background: rgb(211,214,18);
                       background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></div>
-            {% elif color.color == 5 %}
-              <div class="task-color" style="background: rgb(255,102,0);
+              {% elif color.color == 5 %}
+                <div class="task-color" style="background: rgb(255,102,0);
                       background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></div>
-            {% endif %}
-            <a class="a-task-counter-title">{{ color.name }}</a>
-            <a class="a-task-counter-info" style="  width: 2rem;"></a>
-          </div>
-          <div class="task-counter-div">
-            {% for task in tasks %}
-              {% if color.color == task.color.color %}
-                <div class="task-counter-task">{{ task.title }} <a class="a-task-counter-info">{{ task.expiration_date|date:"M.d" }}</a></div>
-              {% else %}
-                {#                {% if forloop.counter == 1 %}#}
-                {#                  <div class="task-counter-task mx-auto" style="font-size: 1rem">There is no tasks</div>#}
-                {#                  <div class="task-counter-task mx-auto" style="font-size: 1rem">{{ forloop.counter }}</div>#}
-                {##}
-                {##}
-                {#                {% endif %}#}
               {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      {% endfor %}
+              <a class="a-task-counter-title">{{ color.name }}</a>
+              <a class="a-task-counter-info" style="width: 1rem"><a href="{% url 'coloredit' color.id %}" class="delete-color me-1"><i class="bi bi-pencil"></i></a></a>
+            </div>
+            <div class="task-counter-div">
+              {% for task in tasks %}
+                {% if color.user_color == task.user_color.user_color %}
+                  <div class="task-counter-task">{{ task.title }} <a class="a-task-counter-info">{{ task.expiration_date|date:"M.d" }}</a></div>
+                {% else %}
 
-    </div>
-
-
-    <!-- Counter of tasks -->
-
-    <div class="col-1">
-
-    </div>
-
-    <!-- Tasklist -->
-    <div class="task-stat col-8 row">
-      <!-- Tasks -->
-      {% for task in tasks %}
-        <div class="mt-2">
-          <div class="task-title pt-1 pb-1">
-
-            {% if task.color.color == 1 %}
-              <div class="task-color" style="background: rgb(221,50,50);
-          background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></div>
-
-            {% elif task.color.color == 2 %}
-              <div class="task-color" style="background: rgb(154,196,78);
-                      background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></div>
-
-            {% elif task.color.color == 3 %}
-              <div class="task-color" style="background: rgb(34,59,126);
-                      background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></div>
-
-            {% elif task.color.color == 4 %}
-              <div class="task-color" style="background: rgb(211,214,18);
-                      background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></div>
-            {% elif task.color.color == 5 %}
-              <div class="task-color" style="background: rgb(255,102,0);
-                      background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></div>
-
-            {% endif %}
-            <a class="a-task-title"><b>{{ task.title }}</b></a>
-            <a class="a-task-info">{{ task.creation_date|date:"M. d,  P" }}</a>
-          </div>
-          <div class="task-desc ps-2 pe-2 pt-1 pb-1">
-            <a class="text-decoration-none text-black">{{ task.description }}</a>
-          </div>
-          <div class="task-bottom ">
-            <a class="ms-2 me-2 text-decoration-none text-black pt-1 pb-1">{{ task.expiration_date }}</a>
-            <div>
-              <a href="{% url 'delete' task.id %}" class="text-decoration-none">
-                <button class="task-bottom-icon "><i class="bi bi-trash3"></i></button>
-              </a>
-              <a href="{% url 'edit' task.id %}" class="text-decoration-none">
-                <button class="task-bottom-icon"><i class="bi bi-pencil"></i></button>
-              </a>
-              <button class="done-button pt-1 pb-1" style="background: rgb(45, 150, 54);"><b
-                    class="text-white">Done</b></button>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
-        </div>
-      {% endfor %}
-      <!-- Tasks -->
+        {% endfor %}
 
+      </div>
+
+
+      <!-- Counter of tasks -->
+
+      <div class="col-1">
+
+      </div>
+
+      <!-- Tasklist -->
+      <div class="task-stat col-8 row">
+        <!-- Tasks -->
+        {% if tasks %}
+          {% for task in tasks %}
+            <div class="mt-2">
+              <div class="task-title pt-1 pb-1">
+
+                {% if task.user_color.color == 1 %}
+                  <div class="task-color" style="background: rgb(221,50,50);
+          background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></div>
+
+                {% elif task.user_color.color == 2 %}
+                  <div class="task-color" style="background: rgb(154,196,78);
+                      background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></div>
+
+                {% elif task.user_color.color == 3 %}
+                  <div class="task-color" style="background: rgb(34,59,126);
+                      background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></div>
+
+                {% elif task.user_color.color == 4 %}
+                  <div class="task-color" style="background: rgb(211,214,18);
+                      background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></div>
+                {% elif task.user_color.color == 5 %}
+                  <div class="task-color" style="background: rgb(255,102,0);
+                      background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></div>
+
+                {% endif %}
+                <a class="a-task-title"><b>{{ task.title }}</b></a>
+                <a class="a-task-info">{{ task.creation_date|date:"M. d,  P" }}</a>
+              </div>
+              <div class="task-desc ps-2 pe-2 pt-1 pb-1">
+                <a class="text-decoration-none text-black">{{ task.description }}</a>
+              </div>
+              <div class="task-bottom ">
+                <a class="ms-2 me-2 text-decoration-none text-black pt-1 pb-1">{{ task.expiration_date }}</a>
+                <div>
+                  <a href="{% url 'delete' task.id %}" class="text-decoration-none">
+                    <button class="task-bottom-icon "><i class="bi bi-trash3"></i></button>
+                  </a>
+                  <a href="{% url 'edit' task.id %}" class="text-decoration-none">
+                    <button class="task-bottom-icon"><i class="bi bi-pencil"></i></button>
+                  </a>
+                  <a href="{% url 'task_done' task.id %}">
+                    <button class="done-button pt-1 pb-1" style="background: rgb(45, 150, 54);"><b
+                          class="text-white">Done</b></button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          {% else %}
+          <h5 style="color: gray; opacity: 70%; text-align: center; margin-top:1rem;margin-bottom:1rem;">--- There is no tasks to do ---</h5>
+        {% endif %}
+        <!-- Tasks -->
+
+        <!-- Done tasks -->
+        {% if donetasks %}
+          <h2 style="color: gray; opacity: 70%; text-align: center; margin-top:1rem;margin-bottom:1rem;">--- Done tasks ---</h2>
+          {% for donetask in donetasks %}
+            <div class="mt-2" style="opacity: 60%">
+              <div class="task-title pt-1 pb-1">
+
+                {% if donetask.user_color.color == 1 %}
+                  <div class="task-color" style="background: rgb(221,50,50);
+          background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></div>
+
+                {% elif donetask.user_color.color == 2 %}
+                  <div class="task-color" style="background: rgb(154,196,78);
+                      background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></div>
+
+                {% elif donetask.user_color.color == 3 %}
+                  <div class="task-color" style="background: rgb(34,59,126);
+                      background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></div>
+
+                {% elif donetask.user_color.color == 4 %}
+                  <div class="task-color" style="background: rgb(211,214,18);
+                      background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></div>
+                {% elif donetask.user_color.color == 5 %}
+                  <div class="task-color" style="background: rgb(255,102,0);
+                      background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></div>
+
+                {% endif %}
+                <a class="a-task-title"><b>{{ donetask.title }}</b></a>
+                <a class="a-task-info">{{ donetask.creation_date|date:"M. d,  P" }}</a>
+              </div>
+              <div class="task-desc ps-2 pe-2 pt-1 pb-1">
+                <a class="text-decoration-none text-black">{{ donetask.description }}</a>
+              </div>
+              <div class="task-bottom ">
+                <a class="ms-2 me-2 text-decoration-none text-black pt-1 pb-1">{{ donetask.expiration_date }}</a>
+                <div>
+                  <a href="{% url 'delete' donetask.id %}" class="text-decoration-none">
+                    <button class="task-bottom-icon "><i class="bi bi-trash3"></i></button>
+                  </a>
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+        <!-- Done tasks end -->
+
+
+      </div>
+      <!-- Tasklist -->
 
     </div>
-    <!-- Tasklist -->
+
+    <!-- Add button -->
+    <a href="{% url 'create' %}">
+      <button class="add-button"><i class="bi bi-plus-lg"></i></button>
+    </a>
+    <!-- Add button -->
 
   </div>
-
-  <!-- Add button -->
-  <a href="{% url 'create' %}">
-    <button class="add-button"><i class="bi bi-plus-lg"></i></button>
-  </a>
-  <!-- Add button -->
-
-</div>
 {% endblock %}
 
 {% block add_button %}
-	  <a href="{% url 'create' %}">
+  <a href="{% url 'create' %}">
     <button class="add-button"><i class="bi bi-plus-lg"></i></button>
   </a>
 {% endblock %}
 
 {% block scripts %}
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+          crossorigin="anonymous"></script>
 {% endblock %}
-</body>
-
-</html>

@@ -1,102 +1,27 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tasks</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-
-<body style="background-color:  rgba(126,126,126,0.28)">
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg " style="background: rgb(196,42,34);
-  background: linear-gradient(14deg, rgba(196, 42, 34, 0.692) 36%, rgba(255, 0, 89, 0.637) 91%); padding: 0;">
-  <div class="container-fluid">
-    <a href="http://127.0.0.1:5500/" class="navbar-brand text-white ">tasks</a>
-
-    <!-- Colors Container -->
-    <div>
-      <div class="mx-auto">
-        <button class="color-button" style="background: rgb(221,50,50);
-          background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></button>
-        <button class="color-button" style="background: rgb(154,196,78);
-          background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></button>
-        <button class="color-button" style="background: rgb(34,59,126);
-          background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></button>
-        <button class="color-button" style="background: rgb(211,214,18);
-          background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></button>
-        <button class="color-button" style="background: rgb(255,102,0);
-          background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></button>
-      </div>
-    </div>
-    <!-- Colors Container -->
-
-    <!-- Sorting Container -->
-    <div class="d-flex justify-content-center">
-      <a class="text-decoration-none text-white my-auto me-2 ">sort by:</a>
-      <div class="mx-auto">
-
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Name</option>
-          <option value="1">Color</option>
-          <option value="2">Creation date</option>
-          <option value="3">Expiration date</option>
-        </select>
-      </div>
-    </div>
-    <!-- Sorting Container -->
-
-    <!-- Profile -->
-    <div class="dropstart">
-      <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-person-circle text-white fs-2"></i>
-      </a>
-      <ul class="dropdown-menu" style="width: 1rem;">
-        <li><a class="dropdown-item " href="http://127.0.0.1:5500/profile.html">Profile</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li><a class="dropdown-item" href="http://127.0.0.1:5500/login.html">Log out</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
-      </ul>
-    </div>
-
-    <!-- Profile -->
-  </div>
-</nav>
-<!-- Navbar -->
-
-<div style=" background-color:  black">
+{% block content %}
   <!-- Delete task -->
-<div class="task-delete-div">
-  <div class="del-task">
-    <a class=" text-decoration-none text-black ms-2">Are you sure?</a>
-  </div>
-  <div class="task-desc ps-2 pe-2 pt-1 pb-1">
-    <a class="text-decoration-none text-black">Delete: {{ taskmodel.title }} </a>
-  </div>
-  <div class="task-bottom">
-    <a style="width: 50%" href="{% url 'index' %}" ><button class="no-button pt-1 pb-1"><b>No</b></button></a>
-    <form method="post" style="width: 50%">
-      {% csrf_token %}
-      <button class="yes-button pt-1 pb-1"><b>Yes</b></button>
-    </form>
-  </div>
-</div>
-<!-- Delete Task -->
-
-</div>
-</body>
-
-</html>
+  {% if taskmodel.username == User %}
+    <div class="task-delete-div">
+      <form method="post">
+        {% csrf_token %}
+        <div class="del-task">
+          <a class=" text-decoration-none text-black ms-2">Are you sure?</a>
+        </div>
+        <div class="task-desc ps-2 pe-2 pt-1 pb-1">
+          <a class="text-decoration-none text-black">Delete: {{ taskmodel.title }} </a>
+        </div>
+        <div class="task-bottom">
+          <a href="{% url 'index' %}" class="text-decoration-none text-black" style="width: 100%">
+            <button type="button" class="no-button pt-1 pb-1"><b>No</b></button>
+          </a>
+          <button type="submit" class="yes-button pt-1 pb-1"><b>Yes</b></button>
+        </div>
+      </form>
+    </div>
+  {% else %}
+    <h1 style="text-align: center;">Forbidden. You don't have access for this page.</h1>
+  {% endif %}
+  <!-- Delete Task end -->
+{% endblock %}

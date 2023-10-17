@@ -1,83 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tasks</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-
-<body>
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg " style="background: rgb(196,42,34);
-  background: linear-gradient(14deg, rgba(196, 42, 34, 0.692) 36%, rgba(255, 0, 89, 0.637) 91%); padding: 0;">
-  <div class="container-fluid">
-    <a href="http://127.0.0.1:5500/" class="navbar-brand text-white ">tasks</a>
-
-    <!-- Colors Container -->
-    <div>
-      <div class="mx-auto">
-        <button class="color-button" style="background: rgb(221,50,50);
-          background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></button>
-        <button class="color-button" style="background: rgb(154,196,78);
-          background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></button>
-        <button class="color-button" style="background: rgb(34,59,126);
-          background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></button>
-        <button class="color-button" style="background: rgb(211,214,18);
-          background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></button>
-        <button class="color-button" style="background: rgb(255,102,0);
-          background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></button>
-      </div>
-    </div>
-    <!-- Colors Container -->
-
-    <!-- Sorting Container -->
-    <div class="d-flex justify-content-center">
-      <a class="text-decoration-none text-white my-auto me-2 ">sort by:</a>
-      <div class="mx-auto">
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Name</option>
-          <option value="1">Color</option>
-          <option value="2">Creation date</option>
-          <option value="3">Expiration date</option>
-        </select>
-      </div>
-    </div>
-    <!-- Sorting Container -->
-
-    <!-- Profile -->
-    <div class="dropstart">
-      <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-person-circle text-white fs-2"></i>
-      </a>
-      <ul class="dropdown-menu" style="width: 1rem;">
-        <li><a class="dropdown-item " href="http://127.0.0.1:5500/profile.html">Profile</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-
-        <li><a class="dropdown-item" href="http://127.0.0.1:5500/login.html">Log out</a></li>
-      </ul>
-    </div>
-
-    <!-- Profile -->
-  </div>
-</nav>
-<!-- Navbar -->
-<div class="container" style="  font-size: 1.25rem;">
+{% block content %}
+  <div class="container" style="  font-size: 1.25rem;">
   <div class="row">
-    <div class="task-stat col-8 row">
-
-      <div class="col-6 mt-3 mb-3 me-3 ms-3">
-
-      </div>
-
+    <div class="task-stat col-8 row mt-2">
       <!-- New Task -->
       <form method="post" action="{% url 'addcolor' %}">
         {% csrf_token %}
@@ -97,21 +23,21 @@
             <input type="text" class="input" autofocus name="name" placeholder="Name a category">
           </div>
           <div class="new-task-color pt-2">
-            <a class="text-decoration-none ps-1 " style="position:sticky; color: gray;">Choose color:</a>
+            <a class="text-decoration-none ps-1 " style="position:sticky; color: #808080;">Choose color:</a>
             <div class="mx-auto pb-0">
               <div class="mx-auto pb-0">
-                  <button type="button" class="new-color-button" id="1" style="background: rgb(221,50,50);
+                <button type="button" class="new-color-button" id="1" style="background: rgb(221,50,50);
                         background: linear-gradient(308deg, rgba(221,50,50,1) 20%, rgba(143,38,38,1) 93%);"></button>
-                  <button type="button" class="new-color-button" id="2" style="background: rgb(154,196,78);
+                <button type="button" class="new-color-button" id="2" style="background: rgb(154,196,78);
                         background: linear-gradient(14deg, rgba(154,196,78,1) 20%, rgba(23,187,72,1) 93%);"></button>
-                  <button type="button" class="new-color-button" id="3" style="background: rgb(34,59,126);
+                <button type="button" class="new-color-button" id="3" style="background: rgb(34,59,126);
                         background: linear-gradient(14deg, rgba(34,59,126,1) 20%, rgba(56,115,74,1) 93%);"></button>
-                  <button type="button" class="new-color-button" id="4" style="background: rgb(211,214,18);
+                <button type="button" class="new-color-button" id="4" style="background: rgb(211,214,18);
                         background: linear-gradient(14deg, rgba(211,214,18,1) 47%, rgba(144,198,31,1) 86%);"></button>
-                  <button type="button" class="new-color-button" id="5" style="background: rgb(255,102,0);
+                <button type="button" class="new-color-button" id="5" style="background: rgb(255,102,0);
                       background: linear-gradient(14deg, rgba(255,102,0,1) 28%, rgba(196,124,34,1) 90%);"></button>
               </div>
-              <input name="color"  id="selected_color" value="None">
+              <input name="color" type="hidden" id="selected_color" value="None">
             </div>
 
           </div>
@@ -122,7 +48,6 @@
                     class="text-white">Create</b></button>
             </div>
           </div>
-
         </div>
       </form>
 
@@ -130,47 +55,43 @@
 
     </div>
     <!-- Tasklist -->
-
   </div>
+  </div>>
+{% endblock %}
 
-  <!-- Add button -->
+{% block add_button %}
   <a href="{% url 'index' %}">
     <button class="add-button-create">+</button>
   </a>
-  <!-- Add button -->
+{% endblock %}
 
-</div>
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+          crossorigin="anonymous"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const colorButtons = document.querySelectorAll(".new-color-button");
+          const selectedColorField = document.getElementById("selected_color");
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const colorButtons = document.querySelectorAll(".new-color-button");
-        const selectedColorField = document.getElementById("selected_color");
+          colorButtons.forEach(button => {
+              button.addEventListener("click", function () {
+                  // Получаем ID нажатой кнопки
+                  const selectedColorId = button.id;
 
-        colorButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                // Получаем ID нажатой кнопки
-                const selectedColorId = button.id;
+                  // Сбрасываем непрозрачность для всех кнопок
+                  colorButtons.forEach(otherButton => {
+                      otherButton.style.opacity = 0.2;
+                  });
 
-                // Сбрасываем непрозрачность для всех кнопок
-                colorButtons.forEach(otherButton => {
-                    otherButton.style.opacity = 0.2;
-                });
+                  // Устанавливаем значение скрытого поля
+                  selectedColorField.value = selectedColorId;
 
-                // Устанавливаем значение скрытого поля
-                selectedColorField.value = selectedColorId;
-
-                // Устанавливаем непрозрачность 20% только для выбранной кнопки
-                button.style.opacity = 1;
-            });
-        });
-    });
-</script>
-
-
-</body>
-
-</html>
+                  // Устанавливаем непрозрачность 20% только для выбранной кнопки
+                  button.style.opacity = 1;
+              });
+          });
+      });
+  </script>
+{% endblock %}
